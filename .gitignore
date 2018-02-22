@@ -2,4 +2,4 @@
 .DS_Store
 https/
 __pycache__
-*.ipynb
+Graph.ipynb
