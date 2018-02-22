@@ -45,15 +45,15 @@ def parse_mat_file(path):
 # In[89]:
 
 def random_walk(G, start_node, path_len):
-    path = [start_node]
-    current = path[-1]
+    path = [str(start_node)]
+    current = start_node
     
     while(len(path) < path_len):
         if(len(G.neighbors(current)) == 0):
             break
         
         current = random.choice(G.neighbors(current))
-        path.append(current)
+        path.append(str(current))
         
         #restarts allowed. Even if it randomly picks its previous neighbour in the path.
     return path
@@ -80,7 +80,7 @@ def build_walk_corpus(G, max_paths, path_len):
     
     corpus = []
     
-    for start_node in G.node_iter():
+    for start_node in G.nodes_iter():
         for path_count in range(max_paths):
             walk = random_walk(G, start_node, path_len)
             corpus.append(walk)
