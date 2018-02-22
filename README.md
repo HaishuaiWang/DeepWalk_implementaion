@@ -1,15 +1,19 @@
 This is a python implementation of DeepWalk by Bryan Perozzi. This is a contribution for Dr. Guozhu Dong's repository which is a collection of Feature Engineering projects for his new textbook called 'Feature Engineering' [currently unplublished]. 
 
-**Dataset** : BlogCatalog [ can be found at http://leitang.net/social_dimension.html (mat file) or http://socialcomputing.asu.edu/datasets/BlogCatalog3 (csv files) ]
-Number of users : 10,312
-Number of friendships/edges : 333,983
-Number of groups to which users can subscribe to : 39
+**Dataset** : BlogCatalog 
+
+download here:
+[mat file](http://leitang.net/social_dimension.html) or [csv files](http://socialcomputing.asu.edu/datasets/BlogCatalog3)
+- Number of users : 10,312
+- Number of friendships/edges : 333,983
+- Number of groups to which users can subscribe to : 39
 
 **Implementation in progress**
 
 02/21/18 - Graph.py
 This contains helper functions to load the dataset, pre processing the graph and generating a corpus of random walks for the graph.
 
-References:
+**References:**
+
 [DeepWalk: Online Learning of Social Representations](http://dl.acm.org/citation.cfm?id=2623732)
 
