@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[92]:
+# In[3]:
 
 import numpy as np
 import pandas as pd
@@ -19,25 +19,25 @@ import scipy.io
 #path = 'blogcatalog.mat'
 
 
-# In[88]:
+# In[13]:
 
 def parse_mat_file(path):
     
     edges = []
+    subscriptions = []
     g = nx.Graph()
     mat = scipy.io.loadmat(path)
-    edges = mat['network'].tolil()
+    nodes = mat['network'].tolil()
     subs = mat['group'].tolil()
     
-    for start_node,end_nodes in enumerate(edges.rows):
+    for start_node,end_nodes in enumerate(nodes.rows, start=0):
         for end_node in end_nodes:
-            edges.append((start_node+1,end_node))
+            edges.append((start_node,end_node))
     
     g.add_edges_from(edges)
     
-    subscriptions = []
-    for i,subs_row in enumerate(subs.rows):
-        subscriptions.append((i+1,[sub for sub in subs_row]))
+    for i,subs_row in enumerate(subs.rows, start=0):
+        subscriptions.append((i,[sub for sub in subs_row]))
         
     return g, subscriptions
 
@@ -74,7 +74,7 @@ def remove_self_loops(G):
     return G
 
 
-# In[91]:
+# In[1]:
 
 def build_walk_corpus(G, max_paths, path_len):
     
