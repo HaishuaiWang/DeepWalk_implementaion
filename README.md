@@ -1,6 +1,9 @@
 This is a python implementation of DeepWalk by Bryan Perozzi. This is a contribution for Dr. Guozhu Dong's repository which is a collection of Feature Engineering projects for his new textbook called 'Feature Engineering' [currently unplublished]. 
 
-Dataset : BlogCatalog [ can be found at http://leitang.net/social_dimension.html ] 
+**Dataset** : BlogCatalog [ can be found at http://leitang.net/social_dimension.html (mat file) or http://socialcomputing.asu.edu/datasets/BlogCatalog3 (csv files) ]
+Number of users : 10,312
+Number of friendships/edges : 333,983
+Number of groups to which users can subscribe to : 39
 
 **Implementation in progress**
 
