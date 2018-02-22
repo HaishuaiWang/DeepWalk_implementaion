@@ -14,7 +14,13 @@ download here:
 
 This contains helper functions to load the dataset, pre processing the graph and generating a corpus of random walks for the graph.
 
+02/21/18 - DeepWalk.ipynb
+
+This notebook computes embeddings for all the nodes in the graph using Word2Vec. 
+
+
 **References:**
 
 [DeepWalk: Online Learning of Social Representations](http://dl.acm.org/citation.cfm?id=2623732)
 
+[Distributed Representations of Words and Phrases and their Compositionality](arXiv:1310.4546v1)
