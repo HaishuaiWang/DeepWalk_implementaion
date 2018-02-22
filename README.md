@@ -23,4 +23,4 @@ This notebook computes embeddings for all the nodes in the graph using Word2Vec.
 
 [DeepWalk: Online Learning of Social Representations](http://dl.acm.org/citation.cfm?id=2623732)
 
-[Distributed Representations of Words and Phrases and their Compositionality](arXiv:1310.4546v1)
+[Distributed Representations of Words and Phrases and their Compositionality](http://papers.nips.cc/paper/5021-distributed-representations-of-words-andphrases)
