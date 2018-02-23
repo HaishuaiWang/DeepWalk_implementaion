@@ -1,17 +1,14 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
-import numpy as np
-import pandas as pd
 import networkx as nx
-import matplotlib.pyplot as plt
 import random
 import scipy.io
 
 
-# In[87]:
+# In[2]:
 
 #network = pd.read_csv('Flickr-dataset/data/edges.csv',header=None)
 #groups = pd.read_csv('Flickr-dataset/data/group-edges.csv',header=None)
@@ -19,16 +16,17 @@ import scipy.io
 #path = 'blogcatalog.mat'
 
 
-# In[13]:
+# In[3]:
 
 def parse_mat_file(path):
     
     edges = []
-    subscriptions = []
+    subscriptions_list = []
     g = nx.Graph()
     mat = scipy.io.loadmat(path)
     nodes = mat['network'].tolil()
-    subs = mat['group'].tolil()
+    subs_coo = mat['group'].tocoo()
+    subs_list = mat['group'].tolil()
     
     for start_node,end_nodes in enumerate(nodes.rows, start=0):
         for end_node in end_nodes:
@@ -36,13 +34,14 @@ def parse_mat_file(path):
     
     g.add_edges_from(edges)
     
-    for i,subs_row in enumerate(subs.rows, start=0):
-        subscriptions.append((i,[sub for sub in subs_row]))
+    #Not using this list anywhere. Might as well remove it.
+    for i,subs_row in enumerate(subs_list.rows, start=0):
+        subscriptions_list.append((i,[sub for sub in subs_row]))
         
-    return g, subscriptions
+    return g, subs_coo, subscriptions_list
 
 
-# In[89]:
+# In[14]:
 
 def random_walk(G, start_node, path_len):
     path = [str(start_node)]
@@ -59,7 +58,7 @@ def random_walk(G, start_node, path_len):
     return path
 
 
-# In[90]:
+# In[15]:
 
 def remove_self_loops(G):
     
@@ -74,7 +73,7 @@ def remove_self_loops(G):
     return G
 
 
-# In[1]:
+# In[16]:
 
 def build_walk_corpus(G, max_paths, path_len):
     
