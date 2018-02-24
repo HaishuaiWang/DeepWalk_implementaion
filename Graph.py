@@ -16,7 +16,7 @@ import scipy.io
 #path = 'blogcatalog.mat'
 
 
-# In[3]:
+# In[2]:
 
 def parse_mat_file(path):
     
@@ -41,24 +41,25 @@ def parse_mat_file(path):
     return g, subs_coo, subscriptions_list
 
 
-# In[14]:
+# In[72]:
 
 def random_walk(G, start_node, path_len):
     path = [str(start_node)]
     current = start_node
     
     while(len(path) < path_len):
-        if(len(G.neighbors(current)) == 0):
+        neighbors = [x for x in G.neighbors(current)]
+        if(len(neighbors) == 0):
             break
         
-        current = random.choice(G.neighbors(current))
+        current = random.choice(neighbors)
         path.append(str(current))
         
         #restarts allowed. Even if it randomly picks its previous neighbour in the path.
     return path
 
 
-# In[15]:
+# In[4]:
 
 def remove_self_loops(G):
     
@@ -73,16 +74,21 @@ def remove_self_loops(G):
     return G
 
 
-# In[16]:
+# In[10]:
 
 def build_walk_corpus(G, max_paths, path_len):
     
     corpus = []
     
-    for start_node in G.nodes_iter():
+    for start_node in G.nodes():
         for path_count in range(max_paths):
             walk = random_walk(G, start_node, path_len)
             corpus.append(walk)
     
     return corpus
+
+
+# In[ ]:
+
+
 
