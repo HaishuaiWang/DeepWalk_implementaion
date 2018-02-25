@@ -12,7 +12,7 @@ download here:
 
 02/21/18 - Graph.py
 
-This contains helper functions to load the dataset, pre processing the graph and generating a corpus of random walks for the graph.
+This contains helper functions to load the dataset, pre-processing the graph and generating a corpus of random walks for the graph.
 
 02/21/18 - DeepWalk.ipynb
 
@@ -21,6 +21,10 @@ This notebook computes embeddings for all the nodes in the graph using Word2Vec.
 02/22/18 - Classifier.py
 
 This contains helper functions to score the word embeddings. It loads the saved word2vec embeddings and performs classification. Classifiers can be added as needed. Make sure they support Multiclass classification. Micro and Macro F1 scores are computed for perfomance comparison. 
+
+02/24/18 - Bug fixes and optimizations
+
+Added timers for each stage. Reporting parameters for each stage. Optimized code for generating walks. Distributed word2vec training to multiple cores. Added 'F1 score vs Training size' graph for each classifier.  
 
 **Results will be tabulated along with conclusions soon**
  
