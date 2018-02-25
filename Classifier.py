@@ -1,12 +1,13 @@
 
 # coding: utf-8
 
-# In[12]:
+# In[17]:
 
+import scipy.io
 import numpy as np
 import Graph
+import matplotlib.pyplot as plt
 from gensim.models import KeyedVectors
-from sklearn.utils import shuffle as skshuffle
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -14,7 +15,8 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import f1_score
 
-# In[8]:
+
+# In[2]:
 
 def sparse2array_inv_binarize(y):
     mlb = MultiLabelBinarizer(range(y.shape[1]))
@@ -23,10 +25,10 @@ def sparse2array_inv_binarize(y):
     return y_
 
 
-# In[7]:
+# In[3]:
 
 #predict() doesn't do a good job of predicting multiple classes per input. Better get the predicted probabilities
-#and fetch predictions manually
+#and get them manually
 def custom_predict(classifier, X_test, y_test):
     
     y_test_ = sparse2array_inv_binarize(y_test)
@@ -40,7 +42,7 @@ def custom_predict(classifier, X_test, y_test):
     return preds
 
 
-# In[43]:
+# In[35]:
 
 def compute_metrics(y_test, preds):
     
@@ -58,16 +60,31 @@ def compute_metrics(y_test, preds):
     return microF1, macroF1
 
 
-# In[59]:
+# In[ ]:
+
+def plot_graph(trainsize, res):
+    
+    micro, = plt.plot(trainsize, [a[0] for a in res], c='b', marker = 's', label='Micro F1')
+    macro, = plt.plot(trainsize, [a[1] for a in res], c='r', marker = 'x', label='Macro F1')
+    plt.legend(handles=[micro,macro])
+    plt.grid(True)
+    plt.xlabel('Training Size')
+    plt.ylabel('F1 score')
+    plt.show()
+    
+    return
+    
+
+
+# In[5]:
 
 def evaluate(G, subs_coo):
     
     #Add classifiers here
-    #classifiers = {'Logistic_classifier': OneVsRestClassifier(LogisticRegression(class_weight='balanced')),
+    #classifiers = {'Logistic_Regression': OneVsRestClassifier(LogisticRegression(class_weight='balanced')),
     #              'MLP_classifier': MLPClassifier(max_iter=500)}
-    classifiers = {'Logistic_classifier': OneVsRestClassifier(LogisticRegression(class_weight='balanced'))}
-    
-    
+    classifiers = {'Logistic_Regression': OneVsRestClassifier(LogisticRegression())}
+        
     word_vec = KeyedVectors.load_word2vec_format('word2vec.txt', binary=False)
     features_matrix = np.asarray([word_vec[str(node)] for node in range(len(G.nodes()))])
     training_set_size = [0.2, 0.5, 0.8, 0.9]
@@ -77,7 +94,8 @@ def evaluate(G, subs_coo):
         results = []
         for training_size in training_set_size:
         
-            X_train, X_test, y_train, y_test = train_test_split(features_matrix, subs_coo, train_size=training_size, random_state=42)
+            X_train, X_test, y_train, y_test = train_test_split(features_matrix, subs_coo, train_size=training_size, 
+                                                                random_state=42)
             model.fit(X_train,y_train)
 
             preds = custom_predict(model, X_test, y_test)
