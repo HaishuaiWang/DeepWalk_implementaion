@@ -6,7 +6,7 @@
 import networkx as nx
 import random
 import scipy.io
-
+from itertools import repeat
 
 # In[2]:
 
@@ -16,39 +16,37 @@ import scipy.io
 #path = 'blogcatalog.mat'
 
 
-# In[2]:
+# In[114]:
 
 def parse_mat_file(path):
     
     edges = []
-    subscriptions_list = []
     g = nx.Graph()
     mat = scipy.io.loadmat(path)
     nodes = mat['network'].tolil()
     subs_coo = mat['group'].tocoo()
-    subs_list = mat['group'].tolil()
     
     for start_node,end_nodes in enumerate(nodes.rows, start=0):
         for end_node in end_nodes:
             edges.append((start_node,end_node))
     
     g.add_edges_from(edges)
-    
-    #Not using this list anywhere. Might as well remove it.
-    for i,subs_row in enumerate(subs_list.rows, start=0):
-        subscriptions_list.append((i,[sub for sub in subs_row]))
+    g.name = path
+    print(nx.info(g) + "\n---------------------------------------\n")
         
-    return g, subs_coo, subscriptions_list
+    return g, subs_coo
 
 
-# In[72]:
+# In[4]:
 
 def random_walk(G, start_node, path_len):
+    
     path = [str(start_node)]
     current = start_node
     
     while(len(path) < path_len):
-        neighbors = [x for x in G.neighbors(current)]
+        neighbors = list(G.neighbors(current))
+        
         if(len(neighbors) == 0):
             break
         
@@ -59,7 +57,7 @@ def random_walk(G, start_node, path_len):
     return path
 
 
-# In[4]:
+# In[5]:
 
 def remove_self_loops(G):
     
@@ -74,16 +72,25 @@ def remove_self_loops(G):
     return G
 
 
-# In[10]:
+# In[6]:
 
 def build_walk_corpus(G, max_paths, path_len):
     
+    print("Building walk corpus with parameters : max_paths per node = ",max_paths," and path_length = ",path_len)
     corpus = []
+    nodes = list(G)
     
+    for path_count in range(max_paths):
+        random.Random(0).shuffle(nodes)
+        corpus = corpus + list(map(random_walk, repeat(G), nodes, repeat(path_len)))     
+    
+    print("Completed")
+    """    
     for start_node in G.nodes():
         for path_count in range(max_paths):
             walk = random_walk(G, start_node, path_len)
             corpus.append(walk)
+    """
     
     return corpus
 
