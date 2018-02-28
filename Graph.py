@@ -73,6 +73,28 @@ def remove_self_loops(G):
 
 
 # In[6]:
+def save_corpus(max_paths, path_len, corpus):
+    
+    fname = "RandomWalks-w"+str(max_paths)+"-l"+str(path_len)+".txt"
+    with open(fname,'w+') as f:
+        [f.writelines("%s\n" % ' '.join(walk)) for walk in corpus]
+    print("Corpus saved on disk as "+fname)
+    return
+
+def load_corpus(G, fname):
+    try:
+        with open(fname) as f:
+            x = f.readlines()
+        z = [list(a.rstrip('\n').split()) for a in x]
+        max_path = len(z)/len(G)
+        path_len = len(z[0])
+        print("Successfully loaded corpus from file ",fname)
+        return z, max_path, path_len, True
+    except IOError:
+        print("File not found. Proceeding to generate new walks")
+        # Y/N here
+        return _, _, _, False
+
 
 def build_walk_corpus(G, max_paths, path_len):
     
