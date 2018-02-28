@@ -78,14 +78,13 @@ def plot_graph(trainsize, res):
 
 # In[5]:
 
-def evaluate(G, subs_coo):
+def evaluate(G, subs_coo, word_vec):
     
     #Add classifiers here
     #classifiers = {'Logistic_Regression': OneVsRestClassifier(LogisticRegression(class_weight='balanced')),
     #              'MLP_classifier': MLPClassifier(max_iter=500)}
     classifiers = {'Logistic_Regression': OneVsRestClassifier(LogisticRegression())}
         
-    word_vec = KeyedVectors.load_word2vec_format('word2vec.txt', binary=False)
     features_matrix = np.asarray([word_vec[str(node)] for node in range(len(G.nodes()))])
     training_set_size = [0.2, 0.5, 0.8, 0.9]
     all_results = {}
