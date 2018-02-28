@@ -26,6 +26,10 @@ This contains helper functions to score the word embeddings. It loads the saved 
 
 Added timers for each stage. Reporting parameters for each stage. Optimized code for generating walks. Distributed word2vec training to multiple cores. Added 'F1 score vs Training size' graph for each classifier.  
 
+02/27/18 - Created .py version of DeepWalk.ipynb. 
+
+Added custom arguments to set parameters and for loadin/saving the random walks and embedding files from/to disk. Bug fixes, code descriptions and refactoring. 
+
 **Results will be tabulated along with conclusions soon**
  
 
