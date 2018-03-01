@@ -3,7 +3,7 @@ This is a python implementation of DeepWalk by Bryan Perozzi. This is a contribu
 **Dataset** : BlogCatalog 
 
 download here:
-[mat file](http://leitang.net/social_dimension.html) or [csv files](http://socialcomputing.asu.edu/datasets/BlogCatalog3)
+[mat file](http://leitang.net/code/social-dimension/data/blogcatalog.mat) or [csv files](http://socialcomputing.asu.edu/datasets/BlogCatalog3)
 - Number of users : 10,312
 - Number of friendships/edges : 333,983
 - Number of groups to which users can subscribe to : 39
