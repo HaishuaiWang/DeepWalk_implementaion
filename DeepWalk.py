@@ -1,7 +1,7 @@
 
 #! /usr/bin/env python
 # coding: utf-8
-
+import sys
 import numpy as np
 import networkx as nx
 import Graph
@@ -15,13 +15,27 @@ from gensim.models import Word2Vec
 from gensim.models import KeyedVectors
 from multiprocessing import cpu_count
 
+class Logger(object):
+    def __init__(self,args):
+        self.terminal = sys.stdout
+        self.log = open("Output-d"+str(args.d)+"-walks"+str(args.walks)+"-l"+str(args.len)+"-window"+str(args.window)+".txt","w+")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)  
+
+    def flush(self):
+        pass   
 
 def build_corpus(G, max_paths, path_len, save_walks):
-    #Build corpus
+    
     print("\t**Stage 1 : Generating random walks**")
+    
+    #Build corpus
     t1 = perf_counter()
     corpus = Graph.build_walk_corpus(G=G, max_paths=max_paths, path_len=path_len)
     t2 = perf_counter()
+
     print("\nNumber of walks in the corpus = ",len(corpus))
     print("Time Elapsed for building walk corpus --> ", timedelta(seconds=t2-t1))
     if save_walks:
@@ -86,7 +100,7 @@ def eval_classifier(G, subs_coo, word_vec):
     print("---------------------------------------\n")
 
     print("Printing evaluation results : ")
-    trainsize = [0.2, 0.5, 0.8, 0.9]
+    trainsize = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
     for (name,res) in results.items():
         print("\n\nClassifier : ",name)
         for (tr_size,res_) in zip(trainsize,res):
@@ -160,9 +174,13 @@ def main():
     parser.add_argument("--le", default='', help="Load embeddings from file")
     parser.add_argument("-w", action='store_true', help="Flag to save random walk corpus to disk")
     parser.add_argument("-e", action='store_true', help='Flag to save word embeddings to disk')
+    parser.add_argument("-o", action='store_true', help='Flag to save Console output to disk')
     warnings.filterwarnings("ignore")
     args = parser.parse_args()
 
+    if(args.o):
+        sys.stdout = Logger(args)
+        
     process(args)
     
     
