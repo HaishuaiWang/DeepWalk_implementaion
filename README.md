@@ -20,7 +20,7 @@ Run the code by entering:
 `python DeepWalk.py`
 
 
-A Full list of cmd line arguments can be seen entering: 
+A Full list of cmd line arguments are shown by entering: 
 ```
 python DeepWalk.py -h
 ```
