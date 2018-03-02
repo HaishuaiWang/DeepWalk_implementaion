@@ -3,38 +3,68 @@ This is a python implementation of DeepWalk by Bryan Perozzi. This is a contribu
 **Dataset** : BlogCatalog 
 
 download here:
-[mat file](http://leitang.net/code/social-dimension/data/blogcatalog.mat) or [csv files](http://socialcomputing.asu.edu/datasets/BlogCatalog3)
+[mat file](http://leitang.net/code/social-dimension/data/blogcatalog.mat)
+
 - Number of users : 10,312
 - Number of friendships/edges : 333,983
 - Number of groups to which users can subscribe to : 39
 
-**Implementation in progress**
+Install pre-reqs by running:
+'''
+pip install -r req.txt
+'''
 
-02/21/18 - Graph.py
 
-This contains helper functions to load the dataset, pre-processing the graph and generating a corpus of random walks for the graph.
+Run the code by entering
+'''
+python DeepWalk.py 
+'''
 
-02/21/18 - DeepWalk.ipynb
 
-This notebook computes embeddings for all the nodes in the graph using Word2Vec. 
+Here is a full list of cmd line arguments you can get by entering 
+'''
+python DeepWalk.py -h
+'''
 
-02/22/18 - Classifier.py
+>usage: DeepWalk [-h] [--d D] [--walks WALKS] [--len LEN] [--window WINDOW]
+>                [--hs HS] [--lw LW] [--le LE] [-w] [-e] [-o]
+>
+>Implementation of DeepWalk model. File Author: Apoorva
+>
+>optional arguments:
+>  -h, --help       show this help message and exit
+>  --d D            Dimensions of word embeddings
+>  --walks WALKS    Number of walks per node
+>  --len LEN        Length of random walk
+>  --window WINDOW  Window size for skipgram
+>  --hs HS          0 - Negative Sampling 1 - Hierarchical Softmax
+>  --lw LW          Load random walk corpus from file
+>  --le LE          Load embeddings from file
+>  -w               Flag to save random walk corpus to disk
+>  -e               Flag to save word embeddings to disk
+>  -o               Flag to save Console output to disk
 
-This contains helper functions to score the word embeddings. It loads the saved word2vec embeddings and performs classification. Classifiers can be added as needed. Make sure they support Multiclass classification. Micro and Macro F1 scores are computed for perfomance comparison. 
+Some sample walk corpus files and embeddings are included in the repository. Feel free to download and play with them.
 
-02/24/18 - Bug fixes and optimizations
 
-Added timers for each stage. Reporting parameters for each stage. Optimized code for generating walks. Distributed word2vec training to multiple cores. Added 'F1 score vs Training size' graph for each classifier.  
+Here is an example of how you would pass arguments from the terminal:
+'''
+python DeepWalk.py --d 128 --walks 40 --len 80 --window 10 
+'''
+Default values are used if no arguments are passed. Here are the default parameter values:
+>Dimensions = 128
+>Walks per node = 10
+>Walk length = 30
+>Window size for skip-gram = 5
+>Heirarchical Softmax = True
 
-02/27/18 - Created .py version of DeepWalk.ipynb. 
 
-Added custom arguments to set parameters and for loadin/saving the random walks and embedding files from/to disk. Bug fixes, code descriptions and refactoring. 
 
-**Results will be tabulated along with conclusions soon**
  
-
 **References:**
 
 [DeepWalk: Online Learning of Social Representations](http://dl.acm.org/citation.cfm?id=2623732)
+
+[Presentation of DeepWalk by B. Perozzi at KDD 2014](https://www.youtube.com/watch?v=n12HS-24CtA)
 
 [Distributed Representations of Words and Phrases and their Compositionality](http://papers.nips.cc/paper/5021-distributed-representations-of-words-andphrases)
