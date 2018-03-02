@@ -9,22 +9,18 @@ download here:
 - Number of friendships/edges : 333,983
 - Number of groups to which users can subscribe to : 39
 
-Install pre-reqs by running:
-'''
-pip install -r req.txt
-'''
+Install pre-reqs by running: 
+`pip install -r req.txt`
 
 
-Run the code by entering
-'''
-python DeepWalk.py 
-'''
+Run the code by entering: 
+'python DeepWalk.py'
 
 
 Here is a full list of cmd line arguments you can get by entering 
-'''
+```
 python DeepWalk.py -h
-'''
+```
 
 >usage: DeepWalk [-h] [--d D] [--walks WALKS] [--len LEN] [--window WINDOW]
 >                [--hs HS] [--lw LW] [--le LE] [-w] [-e] [-o]
@@ -33,29 +29,43 @@ python DeepWalk.py -h
 >
 >optional arguments:
 >  -h, --help       show this help message and exit
+>
 >  --d D            Dimensions of word embeddings
+>
 >  --walks WALKS    Number of walks per node
+>
 >  --len LEN        Length of random walk
+>
 >  --window WINDOW  Window size for skipgram
+>
 >  --hs HS          0 - Negative Sampling 1 - Hierarchical Softmax
+>
 >  --lw LW          Load random walk corpus from file
+>
 >  --le LE          Load embeddings from file
+>
 >  -w               Flag to save random walk corpus to disk
+>
 >  -e               Flag to save word embeddings to disk
+>
 >  -o               Flag to save Console output to disk
 
 Some sample walk corpus files and embeddings are included in the repository. Feel free to download and play with them.
 
 
 Here is an example of how you would pass arguments from the terminal:
-'''
+```
 python DeepWalk.py --d 128 --walks 40 --len 80 --window 10 
-'''
+```
 Default values are used if no arguments are passed. Here are the default parameter values:
 >Dimensions = 128
+>
 >Walks per node = 10
+>
 >Walk length = 30
+>
 >Window size for skip-gram = 5
+>
 >Heirarchical Softmax = True
 
 
