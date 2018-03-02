@@ -54,7 +54,8 @@ Here is an example of how you would pass arguments from the terminal:
 python DeepWalk.py --d 128 --walks 40 --len 80 --window 10 
 ```
 Default values are used if no arguments are passed. Here are the default parameter values:
->**_Dimensions = 128
+**
+>Dimensions = 128
 >
 >Walks per node = 10
 >
@@ -62,8 +63,8 @@ Default values are used if no arguments are passed. Here are the default paramet
 >
 >Window size for skip-gram = 5
 >
->Heirarchical Softmax = True_**
-
+>Heirarchical Softmax = True
+**
 The report **DeepWalkReport.pdf** contains the tabulated results along with comparisons to other models and explanation of the concepts behind DeepWalk.
 If you want to take a look at the raw output dump of the all the test runs, they can be found at *OutputDump.txt*  
 
