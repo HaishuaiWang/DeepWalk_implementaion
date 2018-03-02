@@ -14,18 +14,39 @@ Install pre-reqs by running:
 
 
 Run the code by entering: 
-'python DeepWalk.py'
+`python DeepWalk.py`
 
 
-Here is a full list of cmd line arguments you can get by entering 
+A Full list of cmd line arguments you can get by entering 
 ```
 python DeepWalk.py -h
+```
+
+```
+usage: DeepWalk [-h] [--d D] [--walks WALKS] [--len LEN] [--window WINDOW]
+                [--hs HS] [--lw LW] [--le LE] [-w] [-e] [-o]
+
+Implementation of DeepWalk model. File Author: Apoorva
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --d D            Dimensions of word embeddings
+  --walks WALKS    Number of walks per node
+  --len LEN        Length of random walk
+  --window WINDOW  Window size for skipgram
+  --hs HS          0 - Negative Sampling 1 - Hierarchical Softmax
+  --lw LW          Load random walk corpus from file
+  --le LE          Load embeddings from file
+  -w               Flag to save random walk corpus to disk
+  -e               Flag to save word embeddings to disk
+  -o               Flag to save Console output to disk
 ```
 
 >usage: DeepWalk [-h] [--d D] [--walks WALKS] [--len LEN] [--window WINDOW]
 >                [--hs HS] [--lw LW] [--le LE] [-w] [-e] [-o]
 >
 >Implementation of DeepWalk model. File Author: Apoorva
+>
 >
 >optional arguments:
 >  -h, --help       show this help message and exit
@@ -49,6 +70,7 @@ python DeepWalk.py -h
 >  -e               Flag to save word embeddings to disk
 >
 >  -o               Flag to save Console output to disk
+
 
 Some sample walk corpus files and embeddings are included in the repository. Feel free to download and play with them.
 
