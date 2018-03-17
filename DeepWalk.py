@@ -131,7 +131,7 @@ def process(args):
     readEmbedFlag = False
     
     #Open and parse dataset
-    G, subs_coo = Graph.parse_mat_file('blogcatalog.mat')
+    G, subs_coo = Graph.parse_mat_file('data/blogcatalog.mat')
 
     if load_emb:    	
         word_vec, readEmbedFlag = load_embeddings(load_emb)
