@@ -53,7 +53,7 @@ def random_walk(G, start_node, path_len):
         current = random.choice(neighbors)
         path.append(str(current))
         
-        #restarts allowed. Even if it randomly picks its previous neighbour in the path.
+        #Restarts[Back to root node] allowed. Its also ok if it randomly picks its previous neighbour in the path.
     return path
 
 
@@ -75,7 +75,7 @@ def remove_self_loops(G):
 # In[6]:
 def save_corpus(max_paths, path_len, corpus):
     
-    fname = "RandomWalks-w"+str(max_paths)+"-l"+str(path_len)+".txt"
+    fname = "Random_walks/RandomWalks-w"+str(max_paths)+"-l"+str(path_len)+".txt"
     with open(fname,'w+') as f:
         [f.writelines("%s\n" % ' '.join(walk)) for walk in corpus]
     print("Corpus saved on disk as "+fname)
@@ -107,12 +107,6 @@ def build_walk_corpus(G, max_paths, path_len):
         corpus = corpus + list(map(random_walk, repeat(G), nodes, repeat(path_len)))     
     
     print("Completed")
-    """    
-    for start_node in G.nodes():
-        for path_count in range(max_paths):
-            walk = random_walk(G, start_node, path_len)
-            corpus.append(walk)
-    """
     
     return corpus
 

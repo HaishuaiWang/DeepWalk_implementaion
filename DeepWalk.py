@@ -18,7 +18,7 @@ from multiprocessing import cpu_count
 class Logger(object):
     def __init__(self,args):
         self.terminal = sys.stdout
-        self.log = open("Output-d"+str(args.d)+"-walks"+str(args.walks)+"-l"+str(args.len)+"-window"+str(args.window)+".txt","w+")
+        self.log = open("Output_logs/Output-d"+str(args.d)+"-walks"+str(args.walks)+"-l"+str(args.len)+"-window"+str(args.window)+".txt","w+")
 
     def write(self, message):
         self.terminal.write(message)
@@ -60,7 +60,7 @@ def generate_embeddings(d,w,hs,corpus,save_emb):
     print("\nWord2Vec parameters : Dimensions = "+str(d)+", window = "+str(w)+", hs = "+str(hs)+", number of cpu cores assigned for training = "+str(cpu_count()))
     
     t1 = perf_counter()
-    model = Word2Vec(size = d, window=w, sg=1, min_count=0, hs=hs, compute_loss=True, workers=cpu_count())
+    model = Word2Vec(size = d, window=w, sg=1, min_count=0, hs=hs, workers=cpu_count())
     model.build_vocab(corpus)
     model.train(corpus, total_examples=model.corpus_count, epochs=model.iter)
     t2 = perf_counter()
@@ -72,7 +72,7 @@ def generate_embeddings(d,w,hs,corpus,save_emb):
     
     if save_emb:
         #Save w2v embeddings
-        name = 'word2vec-d'+str(d)+'-w'+str(w)+'-hs'+str(hs)+'.txt'
+        name = 'embeddings/word2vec-d'+str(d)+'-w'+str(w)+'-hs'+str(hs)+'.txt'
         word_vec.save_word2vec_format(binary=False,fname=name)
         print("Embeddings saved to file -> ",name)
 
@@ -133,7 +133,7 @@ def process(args):
     #Open and parse dataset
     G, subs_coo = Graph.parse_mat_file('blogcatalog.mat')
 
-    if load_emb:
+    if load_emb:    	
         word_vec, readEmbedFlag = load_embeddings(load_emb)
 
         #if there's error in reading the specified embedding file, build corpus and generate embeddings
@@ -180,7 +180,7 @@ def main():
 
     if(args.o):
         sys.stdout = Logger(args)
-        
+
     process(args)
     
     

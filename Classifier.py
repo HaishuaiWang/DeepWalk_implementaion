@@ -86,7 +86,7 @@ def evaluate(G, subs_coo, word_vec):
     classifiers = {'Logistic_Regression': OneVsRestClassifier(LogisticRegression())}
         
     features_matrix = np.asarray([word_vec[str(node)] for node in range(len(G.nodes()))])
-    training_set_size = [0.2, 0.5, 0.8, 0.9]
+    training_set_size = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
     all_results = {}
     
     for (name,model) in classifiers.items():
