@@ -2,6 +2,4 @@
 .DS_Store
 https/
 __pycache__
-Graph.ipynb
-Classifier.ipynb
-word2vec.txt
+
