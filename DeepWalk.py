@@ -27,20 +27,31 @@ class Logger(object):
     def flush(self):
         pass   
 
+def timer(msg):
+    def inner(func):
+        def wrapper(*args, **kwargs):
+            t1 = perf_counter()
+            ret = func(*args, **kwargs)
+            t2 = perf_counter()
+            print("Time elapsed for "+msg+" ----> "+str(timedelta(seconds=t2-t1)))
+            print("\n---------------------------------------\n")
+            return ret
+        return wrapper
+    return inner
+
+
+@timer('building Walk corpus')
 def build_corpus(G, max_paths, path_len, save_walks):
     
     print("\t**Stage 1 : Generating random walks**")
     
     #Build corpus
-    t1 = perf_counter()
     corpus = Graph.build_walk_corpus(G=G, max_paths=max_paths, path_len=path_len)
-    t2 = perf_counter()
-
+    
     print("\nNumber of walks in the corpus = ",len(corpus))
-    print("Time Elapsed for building walk corpus --> ", timedelta(seconds=t2-t1))
     if save_walks:
         Graph.save_corpus(max_paths, path_len, corpus)
-    print("---------------------------------------\n")
+    
     return corpus
 
 def load_embeddings(fname):
@@ -53,20 +64,18 @@ def load_embeddings(fname):
         # Y/N here
         return _, False
 
+@timer("generating embeddings")
 def generate_embeddings(d,w,hs,corpus,save_emb):
     #Train model
     #ToDO: try negative sampling (hs=0)
     print("\t**Stage 2 : Generating Embeddings for nodes using Word2Vec**")
     print("\nWord2Vec parameters : Dimensions = "+str(d)+", window = "+str(w)+", hs = "+str(hs)+", number of cpu cores assigned for training = "+str(cpu_count()))
     
-    t1 = perf_counter()
     model = Word2Vec(size = d, window=w, sg=1, min_count=0, hs=hs, workers=cpu_count())
     model.build_vocab(corpus)
     model.train(corpus, total_examples=model.corpus_count, epochs=model.iter)
-    t2 = perf_counter()
     
     print("Model training done. Word2Vec embeddings generated.") 
-    print("Time Elapsed for generating embeddings --> ", timedelta(seconds=t2-t1))
     
     word_vec = model.wv
     
@@ -76,12 +85,10 @@ def generate_embeddings(d,w,hs,corpus,save_emb):
         word_vec.save_word2vec_format(binary=False,fname=name)
         print("Embeddings saved to file -> ",name)
 
-    print("---------------------------------------\n")
-    
     return word_vec
 
 
-
+@timer("evaluating Embeddings")
 def eval_classifier(G, subs_coo, word_vec):
     #Sometimes the model doesn't predict anything at all for some inputs. Its either the model's fault or that user has no subscriptions at
     #all, in that case the model is predicting properly but of course a zero output would raise exceptions during sklearn's
@@ -89,17 +96,13 @@ def eval_classifier(G, subs_coo, word_vec):
     #Currently evaluating performance with OVR Logistic Regression.
     print("\t**Stage 3 : Evaluating classifier performance with the embeddings**")
 
-    t1 = perf_counter()
     results = Classifier.evaluate(G, subs_coo, word_vec)
-    t2 = perf_counter()
-
+    
     print("\n Evaluation completed using the following:")
     for i in results.keys():
         print("--> ",i)
-    print("Time Elapsed for evaluation --> ", timedelta(seconds=t2-t1))
-    print("---------------------------------------\n")
-
-    print("Printing evaluation results : ")
+    
+    print("\nPrinting evaluation results : ")
     trainsize = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
     for (name,res) in results.items():
         print("\n\nClassifier : ",name)
@@ -113,8 +116,7 @@ def eval_classifier(G, subs_coo, word_vec):
         print("\t Average Micro F1 : ",avg[0])
         print("\t Average Macro F1 : ",avg[1])
         Classifier.plot_graph(trainsize, res)
-        print("====================================================\n")
-
+        
 
 def process(args):
 
@@ -159,6 +161,7 @@ def process(args):
 
     #Evaluate the embeddings by passing it through classifier(s)
     eval_classifier(G, subs_coo, word_vec)
+    print("====================================================\n")
 
 
 def main():
